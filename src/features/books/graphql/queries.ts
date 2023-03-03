@@ -5,11 +5,11 @@ export const GET_ALL_BOOKS_QUERY = gql(`
     bookCollection(first: $bookFirst) {
       edges {
         node {
-          ...AllBooksFragment
+          ...AllBooks
           authors(first: $authorFirst) {
             edges {
               node {
-                ...getAuthorOfBookFragment
+                ...getAuthorOfBook
               }
             }
           }
@@ -22,11 +22,11 @@ export const GET_ALL_BOOKS_QUERY = gql(`
 export const GET_BOOK_BY_ID = gql(`
   query GetBook($by: BookByInput!, $first: Int!) {
     book(by: $by) {
-      ...getBookFragment
+      ...getBook
       authors(first: $first) {
         edges {
           node {
-            ...getAuthorOfBookFragment
+            ...getAuthorOfBook
           }
         }
       }

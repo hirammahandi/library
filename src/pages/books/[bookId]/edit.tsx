@@ -22,7 +22,7 @@ const EditBookPage = () => {
 
   if (!book) return <h2>Book Not Found</h2>;
 
-  return <div></div>;
+  return <div>Edit</div>;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

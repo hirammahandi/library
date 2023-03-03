@@ -1,7 +1,7 @@
 import { gql } from "@/__generated__";
 
 export const ALL_AUTHORS_FRAGMENT = gql(`
-    fragment allAuthorsFragment on Author {
+    fragment allAuthors on Author {
         avatar
         name
         id
@@ -9,7 +9,7 @@ export const ALL_AUTHORS_FRAGMENT = gql(`
 `);
 
 export const GET_AUTHOR_FRAGMENT = gql(`
-    fragment getAuthorFragment on Author {
+    fragment getAuthor on Author {
         name
         avatar
         birthday
@@ -19,7 +19,7 @@ export const GET_AUTHOR_FRAGMENT = gql(`
 `);
 
 export const GET_BOOKS_FOR_AUTHOR_FRAGMENT = gql(`
-    fragment getBooksForAuthorFragment on Book {
+    fragment getBooksForAuthor on Book {
         title
         id
     }

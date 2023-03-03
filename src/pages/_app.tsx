@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <NextNProgress />
+      <NextNProgress color="#fc5b62" />
       <ThemeProvider theme={theme}>
         <Layout>
           <Component {...pageProps} />

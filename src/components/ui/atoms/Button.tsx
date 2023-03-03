@@ -1,12 +1,13 @@
+import { CSSProperties } from "react";
 import styled from "styled-components";
 
-type Props = {
-  color: "primary" | "secondary" | "light" | "gray" | "black" | "white" | `#${number}`;
+type ButtonProps = {
+  color: "primary" | "secondary" | "lightPrimary" | "gray" | "black" | "white" | `#${number}`;
   variant: "outlined" | "contained" | "text";
-  width?: string | number;
+  width?: CSSProperties["width"];
 };
 
-export const Button = styled.button<Props>`
+const Button = styled.button<ButtonProps>`
   background-color: ${(props) =>
     props.variant === "contained" ? props.theme.colors[props.color] ?? props.color : "transparent"};
   padding: 8px;
@@ -17,9 +18,12 @@ export const Button = styled.button<Props>`
   border-radius: 2px;
   cursor: pointer;
   font-weight: 600;
-  text-transform: uppercase;
   color: ${(props) =>
-    props.variant === "text" ? props.theme.colors[props.color] ?? props.color : "#2b2a2a"};
+    ["text", "outlined"].includes(props.variant)
+      ? props.theme.colors[props.color]
+      : props.color === "black"
+      ? props.theme.colors.white
+      : props.color ?? "#2b2a2a"};
   transition: background-color 0.5s, scale 0.2s;
   width: ${(props) =>
     typeof props.width === "string"
@@ -36,4 +40,12 @@ export const Button = styled.button<Props>`
   &:active {
     scale: 0.9;
   }
+  &:disabled,
+  &[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+  }
 `;
+
+export default Button;

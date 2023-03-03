@@ -1,8 +1,8 @@
-import { FC, useId, InputHTMLAttributes } from "react";
+import { FC, useId, InputHTMLAttributes, CSSProperties } from "react";
 import styled from "styled-components";
 
 type InputProps = {
-  width?: string | number;
+  width?: CSSProperties["width"];
   fullWidth?: boolean;
 };
 
@@ -12,7 +12,7 @@ type TextInputProps = {
   InputHTMLAttributes<HTMLInputElement>;
 
 export const Input = styled.input<InputProps>`
-  padding: 6px;
+  padding: 8px;
   display: block;
   width: ${(props) =>
     typeof props.width === "string"
@@ -24,13 +24,13 @@ export const Input = styled.input<InputProps>`
       : "auto"};
 `;
 
-const TextInput: FC<TextInputProps> = ({ label, ...restProps }) => {
-  const id = useId();
+const TextInput: FC<TextInputProps> = ({ label, id, ...restProps }) => {
+  const generatedId = useId();
   return (
-    <>
-      {label && <label htmlFor={id}>{label}</label>}
-      <Input {...restProps} />
-    </>
+    <div>
+      {label && <label htmlFor={id ?? generatedId}>{label}</label>}
+      <Input {...restProps} id={id ?? generatedId} />
+    </div>
   );
 };
 
