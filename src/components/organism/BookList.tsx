@@ -10,7 +10,7 @@ type BookListProps = {
 const BookList: FC<BookListProps> = ({ books }) => {
   return (
     <Flex gap={20} gutterBottom>
-      {books!.edges!.map((value) => {
+      {books?.edges?.map((value) => {
         const book: AllBooksFragment = {
           id: value!.node.id,
           cover: value!.node.cover,

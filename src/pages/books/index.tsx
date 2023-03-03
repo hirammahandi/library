@@ -1,5 +1,6 @@
 import { BookContainer, GET_ALL_BOOKS_QUERY } from "@/features/books";
 import { addApolloState, initializeApollo } from "@/lib/apolloClient";
+import { useQuery } from "@apollo/client";
 import { GetServerSideProps } from "next";
 
 const BookPage = () => {

@@ -10,7 +10,7 @@ type Props = {
 const Layout: FC<Props> = ({ children }) => {
   const router = useRouter();
   const path = router.asPath;
-  console.log({ path });
+
   return (
     <Main>
       <header className="header">

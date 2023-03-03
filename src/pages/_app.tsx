@@ -1,4 +1,4 @@
-import { Layout } from "@/components/ui/organism";
+import { Layout } from "@/components/organism";
 import { useApollo } from "@/lib/apolloClient";
 import { theme } from "@/lib/styledTheme";
 import { ApolloProvider } from "@apollo/client";
