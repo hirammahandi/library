@@ -1,26 +1,7 @@
-import { BookContainer, GET_ALL_BOOKS_QUERY } from "@/features/books";
-import { addApolloState, initializeApollo } from "@/lib/apolloClient";
-import { useQuery } from "@apollo/client";
-import { GetServerSideProps } from "next";
+import { BookContainer } from "@/features/books";
 
 const BookPage = () => {
   return <BookContainer />;
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const apolloClient = initializeApollo();
-
-  await apolloClient.query({
-    query: GET_ALL_BOOKS_QUERY,
-    variables: {
-      bookFirst: 10,
-      authorFirst: 10,
-    },
-  });
-
-  return addApolloState(apolloClient, {
-    props: {},
-  });
 };
 
 export default BookPage;

@@ -27,6 +27,7 @@ a {
 
 textarea {
   resize: none;
+  font-family: inherit;
 }
 
 .header {

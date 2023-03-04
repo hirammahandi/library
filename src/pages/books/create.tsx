@@ -1,17 +1,16 @@
 import {
-  Author,
   AuthorToBookCreateAuthor,
   AuthorToBookCreateAuthorRelation,
   CreateBookMutationVariables,
 } from "@/__generated__/graphql";
+import { TextCenter } from "@/components/ui/atoms";
 import { GET_AUTHORS_FOR_SELECT } from "@/features/authors";
-import { CREATE_BOOK } from "@/features/books";
+import { CREATE_BOOK, CreateBookContainer } from "@/features/books";
 import { addApolloState, initializeApollo } from "@/lib/apolloClient";
 import { useMutation, useQuery } from "@apollo/client";
 import { GetServerSideProps } from "next";
-import Link from "next/link";
 import { ChangeEventHandler, FormEventHandler, useMemo, useState } from "react";
-import Select, { MultiValue } from "react-select";
+import { MultiValue } from "react-select";
 import makeAnimated from "react-select/animated";
 
 const animatedComponents = makeAnimated();
@@ -57,6 +56,7 @@ const CreateBookPage = () => {
       firstAuthors: 100,
     },
   });
+  
   const [createBook, { loading }] = useMutation(CREATE_BOOK);
 
   const authors = data?.authorCollection?.edges;
@@ -168,7 +168,30 @@ const CreateBookPage = () => {
   };
 
   return (
-    <div
+    <>
+      <TextCenter>CREATE A BOOK</TextCenter>
+      <CreateBookContainer />;
+    </>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const apolloClient = initializeApollo();
+  await apolloClient.query({
+    query: GET_AUTHORS_FOR_SELECT,
+    variables: {
+      firstAuthors: 100,
+    },
+  });
+
+  return addApolloState(apolloClient, {
+    props: {},
+  });
+};
+
+export default CreateBookPage;
+/* 
+  <div
       style={{
         width: 600,
         border: "thin solid",
@@ -348,21 +371,4 @@ const CreateBookPage = () => {
         </div>
       </form>
     </div>
-  );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const apolloClient = initializeApollo();
-  await apolloClient.query({
-    query: GET_AUTHORS_FOR_SELECT,
-    variables: {
-      firstAuthors: 100,
-    },
-  });
-
-  return addApolloState(apolloClient, {
-    props: {},
-  });
-};
-
-export default CreateBookPage;
+*/

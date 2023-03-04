@@ -2,19 +2,18 @@ import { useQuery } from "@apollo/client";
 import { GET_ALL_BOOKS_QUERY } from "../graphql";
 
 export const useGetAllBooks = () => {
-  const { data, error } = useQuery(GET_ALL_BOOKS_QUERY, {
+  const { data, error, loading } = useQuery(GET_ALL_BOOKS_QUERY, {
     variables: {
       authorFirst: 5,
-      bookFirst: 5,
+      bookFirst: 10,
     },
 
     notifyOnNetworkStatusChange: true,
   });
 
-  const hasBooks = data?.bookCollection?.edges?.length;
   const books = data?.bookCollection;
 
   return {
-    values: { books, hasBooks, error },
+    values: { books, error, loading },
   };
 };

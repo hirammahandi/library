@@ -1,4 +1,5 @@
-import { Flex, TextInput, Button } from "../ui/atoms";
+import { Flex, Button } from "../ui/atoms";
+import TextInput from "./TextInput";
 
 const SearchBar = () => {
   return (

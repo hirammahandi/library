@@ -9,4 +9,11 @@ export const theme: DefaultTheme = {
     gray: "#b1aeae",
     white: "#F8F8F8",
   },
+
+  breakpoints: {
+    xs: "0",
+    sm: "600px",
+    md: "900px",
+    lg: "1200px",
+  },
 };
