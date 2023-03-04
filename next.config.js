@@ -10,6 +10,10 @@ const nextConfig = {
       },
     ];
   },
+  env: {
+    api_key: process.env.GRAFBASE_API_KEY,
+    api_url: process.env.GRAFBASE_API_URL,
+  },
 };
 
 module.exports = nextConfig;

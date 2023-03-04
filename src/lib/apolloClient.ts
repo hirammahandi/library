@@ -17,10 +17,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 });
 
 const httpLink = new HttpLink({
-  uri: "https://graphbase-example-hirammahandi.grafbase.app/graphql", // Server URL (must be absolute)
+  uri: process.env.api_url as string, // Server URL (must be absolute)
   headers: {
-    "x-api-key":
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2Nzc2MDM2MTMsImlzcyI6ImdyYWZiYXNlIiwiYXVkIjoiMDFHVENGRkFCTjJXN1lIUzlXMjg4TkUyNEQiLCJqdGkiOiIwMUdUQ0ZGQUJOQjlOWEtDQTFCMDBEM0M2NyIsImVudiI6InByb2R1Y3Rpb24iLCJwdXJwb3NlIjoicHJvamVjdC1hcGkta2V5In0.k2gp5EqZJ7l6UE1NZy2Qg0Nj-XpEYXlRwMssH2P2FWE",
+    "x-api-key": process.env.api_key as string,
   },
 });
 
