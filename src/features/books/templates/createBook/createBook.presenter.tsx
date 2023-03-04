@@ -6,8 +6,10 @@ import {
   Flex,
   GridContainer,
   GridItem,
+  Loader,
   Paper,
   TextCenter,
+  TextHelper,
 } from "@/components/ui/atoms";
 import Link from "next/link";
 import { FC } from "react";
@@ -23,7 +25,15 @@ type CreateBookPresenterProps = {
 const animatedComponents = makeAnimated();
 
 const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, actions } }) => {
-  const { isAddAuthorActive, authorsOptions, errors, errorsAuthor, control } = values;
+  const {
+    isAddAuthorActive,
+    authorsOptions,
+    errors,
+    errorsAuthor,
+    control,
+    loading,
+    errorResponse,
+  } = values;
   const {
     handleIsAddAuthorActive,
     register,
@@ -33,9 +43,9 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
     registerAuthor,
     handleAddAuthorToCreate,
     handleSubmitAuthor,
+    handleAuthorAvatar,
+    handleCancel,
   } = actions;
-
-  console.log({ errorsAuthor });
 
   return (
     <Paper maxWidth={600}>
@@ -70,6 +80,7 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
                 label="Cover"
                 error={Boolean(errors.cover)}
                 helperText={errors.cover?.message}
+                accept="image/png"
               />
             </GridItem>
             <GridItem xs={12} sm={6}>
@@ -93,29 +104,36 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
               />
             </GridItem>
             <GridItem xs={12}>
-              <Flex gap={8} alignItems="center">
+              <Flex gap={8} alignItems="baseline">
                 <Controller
                   control={control}
                   name="authorsId"
                   render={({ field: { name, onBlur, onChange, ref, value } }) => (
-                    <Select
-                      styles={{
-                        container: (baseStyles) => ({
-                          ...baseStyles,
-                          width: "400px",
-                        }),
-                      }}
-                      ref={ref}
-                      name={name}
-                      onBlur={onBlur}
-                      value={value}
-                      onChange={(newValue) => onChange(newValue)}
-                      closeMenuOnSelect={false}
-                      components={animatedComponents}
-                      isMulti
-                      options={authorsOptions}
-                      placeholder="Select authors..."
-                    />
+                    <div>
+                      <Select
+                        styles={{
+                          container: (baseStyles) => ({
+                            ...baseStyles,
+                            width: "400px",
+                          }),
+                          control: (baseStyle) => ({
+                            ...baseStyle,
+                            borderColor: errors.authorsId ? "red" : "hsl(0, 0%, 80%);",
+                          }),
+                        }}
+                        ref={ref}
+                        name={name}
+                        onBlur={onBlur}
+                        value={value}
+                        onChange={(newValue) => onChange(newValue)}
+                        closeMenuOnSelect={false}
+                        components={animatedComponents}
+                        isMulti
+                        options={authorsOptions}
+                        placeholder="Select authors..."
+                      />
+                      {errors.authorsId && <TextHelper>{errors.authorsId.message}</TextHelper>}
+                    </div>
                   )}
                 />
                 <Button
@@ -135,18 +153,34 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
               <TextCenter>ADD NEW AUTHORS</TextCenter>
               <GridContainer>
                 <GridItem xs={12} sm={6}>
-                  <TextInput {...registerAuthor("authorName")} label="Author's Name" fullWidth />
-                </GridItem>
-                <GridItem xs={12} sm={6}>
                   <TextInput
-                    {...registerAuthor("authorBirthday", { valueAsDate: true })}
-                    label="Author's Birthday"
+                    {...registerAuthor("authorName")}
+                    label="Author's Name"
                     fullWidth
-                    type="date"
+                    error={Boolean(errorsAuthor.authorName)}
+                    helperText={errorsAuthor.authorName?.message}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={6}>
-                  <TextInput fullWidth type="file" label="Avatar" />
+                  <TextInput
+                    {...registerAuthor("authorBirthday")}
+                    label="Author's Birthday"
+                    fullWidth
+                    type="date"
+                    error={Boolean(errorsAuthor.authorBirthday)}
+                    helperText={errorsAuthor.authorBirthday?.message}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={6}>
+                  <TextInput
+                    fullWidth
+                    type="file"
+                    label="Avatar"
+                    onChange={handleAuthorAvatar}
+                    error={Boolean(errorsAuthor.authorAvatar)}
+                    helperText={errorsAuthor.authorAvatar?.message}
+                    accept="image/png"
+                  />
                 </GridItem>
                 <GridItem xs={12}>
                   <TextareaInput
@@ -154,6 +188,8 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
                     label="Review"
                     cols={30}
                     rows={10}
+                    error={Boolean(errorsAuthor.authorReview)}
+                    helperText={errorsAuthor.authorReview?.message}
                   />
                 </GridItem>
                 <GridItem xs={12}>
@@ -173,14 +209,16 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
           )}
           <Divider orientation="horizontal" />
           <Flex justifyContent="flex-end" alignItems="center" gap={10}>
-            <Link href="/books">
-              <Button variant="outlined" color="secondary">
-                Cancel
-              </Button>
-            </Link>
-            <Button variant="contained" color="primary">
-              Create
+            <Button variant="outlined" color="secondary" onClick={handleCancel}>
+              Cancel
             </Button>
+            {loading && !errorResponse ? (
+              <Loader size={30} />
+            ) : (
+              <Button variant="contained" color="primary" disabled={isAddAuthorActive}>
+                Create
+              </Button>
+            )}
           </Flex>
         </form>
       </Box>

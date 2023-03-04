@@ -21,6 +21,10 @@ const Input = styled.input<InputProps>`
   &[data-error="true"] {
     border: thin solid red;
   }
+
+  &[data-error="true"]:focus-visible {
+    outline-color: red;
+  }
 `;
 
 export default Input;

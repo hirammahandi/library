@@ -1,5 +1,7 @@
+import { AllAuthorsContainer } from "@/features/authors";
+
 const AuthorsPage = () => {
-  return <div>AuthorsPage</div>;
+  return <AllAuthorsContainer />;
 };
 
 export default AuthorsPage;

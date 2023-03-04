@@ -1,10 +1,4 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  NormalizedCacheObject,
-  from,
-} from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
@@ -17,9 +11,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | null = null;
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
+      console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
     );
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
@@ -55,9 +47,7 @@ export function initializeApollo(initialState: any = null) {
       // combine arrays using object equality (like in sets)
       arrayMerge: (destinationArray, sourceArray) => [
         ...sourceArray,
-        ...destinationArray.filter((d) =>
-          sourceArray.every((s) => !isEqual(d, s))
-        ),
+        ...destinationArray.filter((d) => sourceArray.every((s) => !isEqual(d, s))),
       ],
     });
 

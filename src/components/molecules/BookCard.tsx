@@ -1,4 +1,4 @@
-import { AllBooksFragment, GetAuthorOfBookFragment } from "@/__generated__/graphql";
+import { AllBooksFragment } from "@/__generated__/graphql";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
@@ -14,13 +14,14 @@ import {
   TruncateParagraph,
 } from "../ui/atoms";
 import BookAuthors from "./BookAuthors";
+import { AuthorOfBook } from "./__types";
 
 // Image
 import emptyImage from "@/assets/images/empty-images.png";
 
 type BookCardProps = {
   book: AllBooksFragment;
-  authors: { node: GetAuthorOfBookFragment }[];
+  authors: AuthorOfBook;
 };
 
 const BookCard: FC<BookCardProps> = ({ book, authors }) => {

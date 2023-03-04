@@ -1,9 +1,19 @@
+import { CSSProperties } from "react";
 import styled from "styled-components";
 
-const CardImage = styled.div`
+type CardImageProps = {
+  height?: CSSProperties["height"];
+};
+
+const CardImage = styled.div<CardImageProps>`
   position: relative;
   width: 100%;
-  height: 250px;
+  height: ${(props) =>
+    typeof props.height === "string"
+      ? props.height
+      : typeof props.height === "number"
+      ? `${props.height}px`
+      : "250px"};
 `;
 
 export default CardImage;

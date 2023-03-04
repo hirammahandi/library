@@ -1,5 +1,5 @@
 import { InputHTMLAttributes, forwardRef, useId } from "react";
-import { Input } from "../ui/atoms";
+import { Input, TextHelper } from "../ui/atoms";
 import { InputProps } from "../ui/atoms/Input";
 
 export type TextInputProps = {
@@ -18,7 +18,7 @@ const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function TextInpu
     <div>
       {label && <label htmlFor={id ?? generatedId}>{label}</label>}
       <Input {...restProps} id={id ?? generatedId} ref={ref} data-error={error} />
-      {helperText && <span>{helperText}</span>}
+      {helperText && <TextHelper>{helperText}</TextHelper>}
     </div>
   );
 });

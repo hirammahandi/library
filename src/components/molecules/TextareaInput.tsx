@@ -1,5 +1,5 @@
 import { TextareaHTMLAttributes, forwardRef, useId } from "react";
-import { Textarea } from "../ui/atoms";
+import { TextHelper, Textarea } from "../ui/atoms";
 
 type TextareaInputProps = {
   label?: string;
@@ -16,8 +16,8 @@ const TextareaInput = forwardRef<HTMLTextAreaElement, TextareaInputProps>(functi
   return (
     <div>
       {label && <label htmlFor={id ?? generatedId}>{label}</label>}
-      <Textarea {...restProps} id={id ?? generatedId} ref={ref} has-error={error} />
-      {helperText && <span>{helperText}</span>}
+      <Textarea {...restProps} id={id ?? generatedId} ref={ref} data-error={error} />
+      {helperText && <TextHelper>{helperText}</TextHelper>}
     </div>
   );
 });

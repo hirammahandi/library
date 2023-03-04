@@ -5,8 +5,12 @@ const Textarea = styled.textarea`
   display: block;
   width: 100%;
   padding: 8px;
-  &[has-error="true"] {
+
+  &[data-error="true"] {
     border: thin solid red;
+  }
+  &[data-error="true"]:focus-visible {
+    outline-color: red;
   }
 `;
 

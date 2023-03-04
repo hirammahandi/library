@@ -31,8 +31,7 @@ textarea {
 }
 
 .header {
-  background-image: url("../svgs/wave.svg");
-  height: 166px;
+  background-color: var(--primary-color);
   background-repeat: no-repeat;
   background-size: 100%;
   padding: 10px;

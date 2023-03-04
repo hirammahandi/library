@@ -1,17 +1,27 @@
+import { CenterLoader } from "@/components/molecules";
 import BookList from "@/components/organism/BookList";
-import { Loader } from "@/components/ui/atoms";
 import { FC } from "react";
 import { useGetAllBooks } from "../../services";
-import { CenterLoader } from "@/components/molecules";
+import { SelectCount } from "@/components/ui/atoms";
 
 type BookPresenterProps = {
   model: ReturnType<typeof useGetAllBooks>;
 };
 
-const BookPresenter: FC<BookPresenterProps> = ({ model: { values } }) => {
-  const { books, loading, error } = values;
+const BookPresenter: FC<BookPresenterProps> = ({ model: { values, actions } }) => {
+  const { loading, error, orderedBooks, count } = values;
+  const { handleRefetchOnCount } = actions;
 
-  return <>{!loading ? <BookList books={books} error={error} /> : <CenterLoader />}</>;
+  return (
+    <>
+      <SelectCount
+        countValue={count}
+        loading={loading && !error}
+        handleRefetchOnCount={handleRefetchOnCount}
+      />
+      {!loading ? <BookList books={orderedBooks} error={error} /> : <CenterLoader />}
+    </>
+  );
 };
 
 export default BookPresenter;

@@ -9,15 +9,15 @@ const Navigation = () => {
           Books
         </Button>
       </Link>
-      <Link href="/authors">
-        <Button color="black" variant="text" width={115}>
-          Authors
-        </Button>
-      </Link>
-      <Divider orientation="vertical" />
       <Link href="/books/create">
         <Button color="black" variant="text" width={115}>
           Create Book
+        </Button>
+      </Link>
+      <Divider orientation="vertical" />
+      <Link href="/authors">
+        <Button color="black" variant="text" width={115}>
+          Authors
         </Button>
       </Link>
       <Link href="/authors/create">

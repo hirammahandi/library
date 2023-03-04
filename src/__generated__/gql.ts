@@ -18,8 +18,8 @@ const documents = {
     "\n    fragment getBooksForAuthor on Book {\n        title\n        id\n    }\n": types.GetBooksForAuthorFragmentDoc,
     "\n    mutation createAuthor($input:AuthorCreateInput!){\n        authorCreate(input:$input){\n            author{\n                id\n            }\n        }\n    }\n": types.CreateAuthorDocument,
     "\n    mutation deleteAuthorById($by:AuthorByInput!){\n        authorDelete(by:$by){\n            deletedId\n        }\n    }\n": types.DeleteAuthorByIdDocument,
-    "\n  query getAuthorsForSelect($firstAuthors: Int) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          name\n          id\n        }\n      }\n    }\n  }\n": types.GetAuthorsForSelectDocument,
-    "\n  query getAllAuthors {\n    authorCollection(first: 100) {\n      edges {\n        node {\n          ...allAuthors\n        }\n      }\n    }\n}": types.GetAllAuthorsDocument,
+    "\n  query getAuthorsForSelect($firstAuthors: Int!) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          name\n          id\n        }\n      }\n    }\n  }\n": types.GetAuthorsForSelectDocument,
+    "\n  query getAllAuthors($firstAuthors: Int!) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          ...allAuthors\n        }\n      }\n    }\n}": types.GetAllAuthorsDocument,
     "\n  query getAuthor($by: AuthorByInput!, $bookFirst: Int!) {\n    author(by: $by) {\n      ...getAuthor\n      books(first: $bookFirst) {\n        edges {\n          node {\n            ...getBooksForAuthor\n          }\n        }\n      }\n    }\n  }\n": types.GetAuthorDocument,
     "\n  fragment AllBooks on Book {\n    title\n    description\n    cover\n    id\n  }\n": types.AllBooksFragmentDoc,
     "\n  fragment getAuthorOfBook on Author {\n    id\n    name\n  }\n": types.GetAuthorOfBookFragmentDoc,
@@ -68,11 +68,11 @@ export function gql(source: "\n    mutation deleteAuthorById($by:AuthorByInput!)
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query getAuthorsForSelect($firstAuthors: Int) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          name\n          id\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query getAuthorsForSelect($firstAuthors: Int) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          name\n          id\n        }\n      }\n    }\n  }\n"];
+export function gql(source: "\n  query getAuthorsForSelect($firstAuthors: Int!) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          name\n          id\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query getAuthorsForSelect($firstAuthors: Int!) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          name\n          id\n        }\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query getAllAuthors {\n    authorCollection(first: 100) {\n      edges {\n        node {\n          ...allAuthors\n        }\n      }\n    }\n}"): (typeof documents)["\n  query getAllAuthors {\n    authorCollection(first: 100) {\n      edges {\n        node {\n          ...allAuthors\n        }\n      }\n    }\n}"];
+export function gql(source: "\n  query getAllAuthors($firstAuthors: Int!) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          ...allAuthors\n        }\n      }\n    }\n}"): (typeof documents)["\n  query getAllAuthors($firstAuthors: Int!) {\n    authorCollection(first: $firstAuthors) {\n      edges {\n        node {\n          ...allAuthors\n        }\n      }\n    }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

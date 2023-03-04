@@ -1,7 +1,7 @@
 import { gql } from "@/__generated__/gql";
 
 export const GET_AUTHORS_FOR_SELECT = gql(`
-  query getAuthorsForSelect($firstAuthors: Int) {
+  query getAuthorsForSelect($firstAuthors: Int!) {
     authorCollection(first: $firstAuthors) {
       edges {
         node {
@@ -14,8 +14,8 @@ export const GET_AUTHORS_FOR_SELECT = gql(`
 `);
 
 export const GET_ALL_AUTHORS = gql(`
-  query getAllAuthors {
-    authorCollection(first: 100) {
+  query getAllAuthors($firstAuthors: Int!) {
+    authorCollection(first: $firstAuthors) {
       edges {
         node {
           ...allAuthors

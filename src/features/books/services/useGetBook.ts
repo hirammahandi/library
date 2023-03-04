@@ -39,7 +39,7 @@ export const useGetBook = () => {
         ],
       });
 
-      router.push("/books");
+      await router.push("/books");
     } catch (error) {
       console.error(error);
     }

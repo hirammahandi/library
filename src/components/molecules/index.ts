@@ -1,3 +1,4 @@
+export { default as AuthorCard } from "./AuthorCard";
 export { default as BookAuthors } from "./BookAuthors";
 export { default as BookCard } from "./BookCard";
 export { default as BookDetails } from "./BookDetails";
