@@ -1,6 +1,5 @@
-import { GetAuthorOfBookFragment, GetBookFragment } from "@/__generated__/graphql";
-import Image from "next/image";
-import Link from "next/link";
+import { GetAuthorFragment } from "@/__generated__/graphql";
+import { BookOfAuthor } from "./__types";
 import { FC } from "react";
 import {
   Button,
@@ -8,68 +7,66 @@ import {
   DetailsContainer,
   DetailsContent,
   DetailsImage,
-  Divider,
   Loader,
   Paragraph,
   SelectCount,
   TextIndicator,
 } from "../ui/atoms";
-import BookAuthors from "./BookAuthors";
+import Image from "next/image";
 
 // Image
 import emptyImage from "@/assets/images/empty-images.png";
-import { AuthorOfBook } from "./__types";
+import Link from "next/link";
+import BooksAuthor from "./BooksAuthor";
 
-type BookDetailsProps = {
-  book: GetBookFragment;
-  authors: AuthorOfBook;
+type AuthorDetailProps = {
+  author: GetAuthorFragment;
+  books: BookOfAuthor;
   loading?: boolean;
   countValue: number;
+  handleDeleteAuthorById: (id: string) => Promise<void>;
   handleRefetchOnCount: (value: number) => void;
-  handleDeleteBookById: (id: string) => Promise<void>;
 };
 
-const BookDetails: FC<BookDetailsProps> = ({
-  book,
-  authors,
+const AuthorDetail: FC<AuthorDetailProps> = ({
+  author,
+  books,
   loading,
   countValue,
-  handleDeleteBookById,
+  handleDeleteAuthorById,
   handleRefetchOnCount,
 }) => {
   return (
     <DetailsContainer>
       <DetailsImage>
         <Image
-          src={book.cover || emptyImage}
-          alt="book cover"
+          src={author.avatar || emptyImage}
+          alt="author avatar"
           priority
           fill
-          style={{ borderRadius: "8px 0 0 8px" }}
+          style={{ borderRadius: "8px 0 0 8px", objectFit: "cover" }}
         />
       </DetailsImage>
       <DetailsContent>
-        <TextIndicator label="Title" content={book.title} />
-        <TextIndicator label="ISBN" content={book.isbn} />
-        <TextIndicator label="Publication year" content={book.publicationYear} />
+        <TextIndicator label="Name" content={author.name} />
+        <TextIndicator label="Birthday" content={author.birthday} />
         <TextIndicator
-          label="Description"
+          label="Review"
           content={
             <Paragraph st={{ border: "thin solid #ccc", padding: 6, borderRadius: 4 }}>
-              {book.description}
+              {author.review}
             </Paragraph>
           }
         />
-        <span>Authors:</span>
+        <span>Books: </span>
         <SelectCount countValue={countValue} handleRefetchOnCount={handleRefetchOnCount} />
-        <BookAuthors authors={authors} />
-        <Divider orientation="horizontal" />
+        <BooksAuthor books={books} />
         <DetailsActions>
           {loading ? (
             <Loader size={30} />
           ) : (
             <>
-              <Link href={`/books/${book.id}/edit`}>
+              <Link href={`/authors/${author.id}/edit`}>
                 <Button variant="outlined" color="primary">
                   Edit
                 </Button>
@@ -77,7 +74,7 @@ const BookDetails: FC<BookDetailsProps> = ({
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={() => handleDeleteBookById(book.id)}
+                onClick={() => handleDeleteAuthorById(author.id)}
               >
                 Delete
               </Button>
@@ -89,4 +86,4 @@ const BookDetails: FC<BookDetailsProps> = ({
   );
 };
 
-export default BookDetails;
+export default AuthorDetail;

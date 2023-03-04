@@ -36,6 +36,8 @@ export const useGetAllBooks = () => {
 
   const orderedBooks = useMemo(() => orderBooks(orderBy, filteredBooks), [filteredBooks, orderBy]);
 
+  const filterBooks = orderedBooks?.filter((value) => Boolean(value?.node.authors?.edges?.length));
+
   const handleRefetchOnCount = (count: number) => {
     handleChangeCount(count, () => {
       refetch({
@@ -46,7 +48,7 @@ export const useGetAllBooks = () => {
   };
 
   return {
-    values: { error, loading, orderedBooks, count },
+    values: { error, loading, count, filterBooks },
     actions: { handleRefetchOnCount },
   };
 };

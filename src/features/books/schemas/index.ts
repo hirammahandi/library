@@ -3,7 +3,6 @@ import { z } from "zod";
 export const authorToCreateSchema = z.object({
   authorName: z.string().min(1),
   authorBirthday: z.string().refine((val) => {
-    console.log(val);
     return !isNaN(Date.parse(new Date(val).toString()));
   }, "Select a valid date"),
   authorAvatar: z.string().min(1),

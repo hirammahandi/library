@@ -11,102 +11,84 @@ import {
   TextCenter,
   TextHelper,
 } from "@/components/ui/atoms";
-import { FC } from "react";
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
-import { useCreateBook } from "../../services";
+import { useCreateAuthor } from "../../services";
 
-type CreateBookPresenterProps = {
-  model: ReturnType<typeof useCreateBook>;
+type Props = {
+  model: ReturnType<typeof useCreateAuthor>;
 };
 
 const animatedComponents = makeAnimated();
 
-const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, actions } }) => {
+const CreateAuthorPresenter = ({ model: { values, actions } }: Props) => {
+  const { control, isAddBookActive, booksOptions, errors, loading, errorResponse, errorsBook } =
+    values;
   const {
-    isAddAuthorActive,
-    authorsOptions,
-    errors,
-    errorsAuthor,
-    control,
-    loading,
-    errorResponse,
-  } = values;
-  const {
-    handleIsAddAuthorActive,
+    handleIsAddBookActive,
     register,
     handleSubmit,
-    handleCreateBook,
-    handleFile,
-    registerAuthor,
-    handleAddAuthorToCreate,
-    handleSubmitAuthor,
-    handleAuthorAvatar,
+    handleCreateAuthor,
+    registerBook,
+    handleAddBookToCreate,
+    handleBookCover,
+    handleAvatarFile,
+    handleSubmitBook,
     handleCancel,
   } = actions;
 
   return (
     <Paper maxWidth={600}>
       <Box st={{ maxWidth: 600 }}>
-        <form onSubmit={handleSubmit(handleCreateBook)}>
+        <form onSubmit={handleSubmit(handleCreateAuthor)}>
           <GridContainer>
-            <GridItem xs={12} sm={6} spacing={2}>
+            <GridItem xs={12} sm={6}>
               <TextInput
-                {...register("title")}
+                {...register("authorName")}
+                error={Boolean(errors.authorName)}
+                helperText={errors.authorName?.message}
                 fullWidth
-                label="Title"
+                label="Name"
                 type="text"
-                error={Boolean(errors.title)}
-                helperText={errors.title?.message}
               />
             </GridItem>
             <GridItem xs={12} sm={6}>
               <TextInput
-                {...register("isbn")}
+                {...register("authorBirthday")}
+                error={Boolean(errors.authorBirthday)}
+                helperText={errors.authorBirthday?.message}
                 fullWidth
-                label="ISBN"
-                type="text"
-                error={Boolean(errors.isbn)}
-                helperText={errors.isbn?.message}
+                label="Birthday"
+                type="date"
               />
             </GridItem>
-            <GridItem xs={12} sm={6}>
+            <GridItem xs={12}>
               <TextInput
-                onChange={handleFile}
+                error={Boolean(errors.authorAvatar)}
+                helperText={errors.authorAvatar?.message}
                 fullWidth
+                onChange={handleAvatarFile}
+                label="Avatar"
                 type="file"
-                label="Cover"
-                error={Boolean(errors.cover)}
-                helperText={errors.cover?.message}
                 accept="image/png"
-              />
-            </GridItem>
-            <GridItem xs={12} sm={6}>
-              <TextInput
-                {...register("year", { valueAsNumber: true })}
-                fullWidth
-                type="number"
-                label="Publication Year"
-                error={Boolean(errors.year)}
-                helperText={errors.year?.message}
               />
             </GridItem>
             <GridItem xs={12}>
               <TextareaInput
-                {...register("description")}
-                label="Description"
+                {...register("authorReview")}
+                error={Boolean(errors.authorReview)}
+                helperText={errors.authorReview?.message}
+                label="Review"
                 cols={30}
                 rows={10}
-                error={Boolean(errors.description)}
-                helperText={errors.description?.message}
               />
             </GridItem>
             <GridItem xs={12}>
               <Flex gap={8} alignItems="baseline">
                 <Controller
                   control={control}
-                  name="authorsId"
+                  name="booksId"
                   render={({ field: { name, onBlur, onChange, ref, value } }) => (
                     <div>
                       <Select
@@ -117,7 +99,7 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
                           }),
                           control: (baseStyle) => ({
                             ...baseStyle,
-                            borderColor: errors.authorsId ? "red" : "hsl(0, 0%, 80%);",
+                            borderColor: errors.booksId ? "red" : "hsl(0, 0%, 80%);",
                           }),
                         }}
                         ref={ref}
@@ -128,10 +110,10 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
                         closeMenuOnSelect={false}
                         components={animatedComponents}
                         isMulti
-                        options={authorsOptions}
-                        placeholder="Select authors..."
+                        options={booksOptions}
+                        placeholder="Select book..."
                       />
-                      {errors.authorsId && <TextHelper>{errors.authorsId.message}</TextHelper>}
+                      {errors.booksId && <TextHelper>{errors.booksId.message}</TextHelper>}
                     </div>
                   )}
                 />
@@ -139,56 +121,66 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
                   type="button"
                   variant="outlined"
                   color="primary"
-                  onClick={handleIsAddAuthorActive}
+                  onClick={handleIsAddBookActive}
                 >
-                  {isAddAuthorActive ? "Close Author" : "Add Author"}
+                  {isAddBookActive ? "Close Book" : "Add Book"}
                 </Button>
               </Flex>
             </GridItem>
           </GridContainer>
-          {isAddAuthorActive && (
+          {isAddBookActive && (
             <>
               <Divider orientation="horizontal" />
-              <TextCenter>ADD NEW AUTHORS</TextCenter>
+              <TextCenter>ADD NEW BOOK</TextCenter>
               <GridContainer>
                 <GridItem xs={12} sm={6}>
                   <TextInput
-                    {...registerAuthor("authorName")}
-                    label="Author's Name"
+                    {...registerBook("title")}
+                    error={Boolean(errorsBook.title)}
+                    helperText={errorsBook.title?.message}
+                    label="Book's Title"
                     fullWidth
-                    error={Boolean(errorsAuthor.authorName)}
-                    helperText={errorsAuthor.authorName?.message}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={6}>
                   <TextInput
-                    {...registerAuthor("authorBirthday")}
-                    label="Author's Birthday"
+                    {...registerBook("isbn")}
+                    error={Boolean(errorsBook.isbn)}
+                    helperText={errorsBook.isbn?.message}
+                    label="Book's ISBN"
                     fullWidth
-                    type="date"
-                    error={Boolean(errorsAuthor.authorBirthday)}
-                    helperText={errorsAuthor.authorBirthday?.message}
+                    type="text"
                   />
                 </GridItem>
                 <GridItem xs={12} sm={6}>
                   <TextInput
+                    error={Boolean(errorsBook.cover)}
+                    helperText={errorsBook.cover?.message}
+                    onChange={handleBookCover}
                     fullWidth
                     type="file"
-                    label="Avatar"
-                    onChange={handleAuthorAvatar}
-                    error={Boolean(errorsAuthor.authorAvatar)}
-                    helperText={errorsAuthor.authorAvatar?.message}
+                    label="Book's Cover"
                     accept="image/png"
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={6}>
+                  <TextInput
+                    {...registerBook("year", { valueAsNumber: true })}
+                    error={Boolean(errorsBook.year)}
+                    helperText={errorsBook.year?.message}
+                    fullWidth
+                    type="number"
+                    label="Publication Year"
                   />
                 </GridItem>
                 <GridItem xs={12}>
                   <TextareaInput
-                    {...registerAuthor("authorReview")}
-                    label="Review"
+                    {...registerBook("description")}
+                    error={Boolean(errorsBook.description)}
+                    helperText={errorsBook.description?.message}
+                    label="Description"
                     cols={30}
                     rows={10}
-                    error={Boolean(errorsAuthor.authorReview)}
-                    helperText={errorsAuthor.authorReview?.message}
                   />
                 </GridItem>
                 <GridItem xs={12}>
@@ -197,7 +189,7 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
                       type="button"
                       variant="outlined"
                       color="primary"
-                      onClick={handleSubmitAuthor(handleAddAuthorToCreate)}
+                      onClick={handleSubmitBook(handleAddBookToCreate)}
                     >
                       Add
                     </Button>
@@ -214,7 +206,7 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
             {loading && !errorResponse ? (
               <Loader size={30} />
             ) : (
-              <Button variant="contained" color="primary" disabled={isAddAuthorActive}>
+              <Button variant="contained" color="primary" disabled={isAddBookActive}>
                 Create
               </Button>
             )}
@@ -225,4 +217,4 @@ const CreateBookPresenter: FC<CreateBookPresenterProps> = ({ model: { values, ac
   );
 };
 
-export default CreateBookPresenter;
+export default CreateAuthorPresenter;

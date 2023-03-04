@@ -33,3 +33,16 @@ export const GET_BOOK_BY_ID = gql(`
     }
 }
 `);
+
+export const GET_AUTHORS_FOR_SELECT = gql(`
+  query getAuthorsForSelect($firstAuthors: Int!) {
+    authorCollection(first: $firstAuthors) {
+      edges {
+        node {
+          name
+          id
+        }
+      }
+    }
+  }
+`);

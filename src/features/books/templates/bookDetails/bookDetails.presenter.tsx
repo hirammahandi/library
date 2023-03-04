@@ -7,8 +7,8 @@ type BookDetailsPresenterProps = {
 };
 
 const BookDetailsPresenter: FC<BookDetailsPresenterProps> = ({ model: { values, actions } }) => {
-  const { book, authors, loading } = values;
-  const { handleDeleteBookById } = actions;
+  const { book, authors, loading, count } = values;
+  const { handleDeleteBookById, handleRefetchOnCount } = actions;
 
   if (!book) return <h2>Book Not Found</h2>;
 
@@ -16,8 +16,10 @@ const BookDetailsPresenter: FC<BookDetailsPresenterProps> = ({ model: { values, 
     <BookDetails
       book={book}
       authors={authors}
-      handleDeleteBookById={handleDeleteBookById}
       loading={loading}
+      countValue={count}
+      handleDeleteBookById={handleDeleteBookById}
+      handleRefetchOnCount={handleRefetchOnCount}
     />
   );
 };

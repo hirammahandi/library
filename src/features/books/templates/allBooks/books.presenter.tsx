@@ -9,7 +9,7 @@ type BookPresenterProps = {
 };
 
 const BookPresenter: FC<BookPresenterProps> = ({ model: { values, actions } }) => {
-  const { loading, error, orderedBooks, count } = values;
+  const { loading, error, count, filterBooks } = values;
   const { handleRefetchOnCount } = actions;
 
   return (
@@ -19,7 +19,7 @@ const BookPresenter: FC<BookPresenterProps> = ({ model: { values, actions } }) =
         loading={loading && !error}
         handleRefetchOnCount={handleRefetchOnCount}
       />
-      {!loading ? <BookList books={orderedBooks} error={error} /> : <CenterLoader />}
+      {!loading ? <BookList books={filterBooks} error={error} /> : <CenterLoader />}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { GET_AUTHORS_FOR_SELECT } from "@/features/authors";
+import { GET_AUTHORS_FOR_SELECT } from "@/features/books";
 import { useQuery } from "@apollo/client";
 import { useMemo } from "react";
 

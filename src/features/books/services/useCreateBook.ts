@@ -1,17 +1,17 @@
+import {
+  AuthorToBookCreateAuthorRelation,
+  CreateBookMutationVariables,
+} from "@/__generated__/graphql";
 import { useGetAuthorsForSelect, useHandleFileInput } from "@/hooks";
 import { ApolloError, useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { CREATE_BOOK, GET_ALL_BOOKS_QUERY } from "../graphql";
 import { bookSchema } from "../schemas";
 import { AuthorsToCreate, FormAddAuthor, FormBookData } from "../types";
 import { useAddAuthorOfBook } from "./useAddAuthorOfBook";
-import {
-  AuthorToBookCreateAuthorRelation,
-  CreateBookMutationVariables,
-} from "@/__generated__/graphql";
-import { toast } from "react-toastify";
 
 export const useCreateBook = () => {
   const [isAddAuthorActive, setIsAddAuthorActive] = useState(false);
@@ -21,9 +21,11 @@ export const useCreateBook = () => {
   const {
     values: { authorsOptions },
   } = useGetAuthorsForSelect();
+
   const [createBook, { loading, error: errorResponse }] = useMutation(CREATE_BOOK, {
     context: { fetchOptions: { signal: controller.current.signal } },
   });
+
   const {
     values: { errorsAuthor },
     actions: {
@@ -119,6 +121,10 @@ export const useCreateBook = () => {
         refetchQueries: [
           {
             query: GET_ALL_BOOKS_QUERY,
+            variables: {
+              authorFirst: 5,
+              bookFirst: 5,
+            },
           },
           "getAllBooks",
         ],

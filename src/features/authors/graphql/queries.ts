@@ -1,11 +1,11 @@
 import { gql } from "@/__generated__/gql";
 
-export const GET_AUTHORS_FOR_SELECT = gql(`
-  query getAuthorsForSelect($firstAuthors: Int!) {
-    authorCollection(first: $firstAuthors) {
+export const GET_BOOKS_FOR_SELECT = gql(`
+  query getBooksForSelect($bookFirst: Int!) {
+    bookCollection(first: $bookFirst) {
       edges {
         node {
-          name
+          title
           id
         }
       }
