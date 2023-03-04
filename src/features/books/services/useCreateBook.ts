@@ -12,11 +12,15 @@ import { CREATE_BOOK, GET_ALL_BOOKS_QUERY } from "../graphql";
 import { bookSchema } from "../schemas";
 import { AuthorsToCreate, FormAddAuthor, FormBookData } from "../types";
 import { useAddAuthorOfBook } from "./useAddAuthorOfBook";
+import { useEditBook } from "./useEditBook";
 
 export const useCreateBook = () => {
   const [isAddAuthorActive, setIsAddAuthorActive] = useState(false);
   const { file, handleFile } = useHandleFileInput();
   const controller = useRef(new AbortController());
+
+  const { data: dataToEdit } = useEditBook();
+  console.log({ dataToEdit });
 
   const {
     values: { authorsOptions },
